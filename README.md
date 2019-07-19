@@ -2,3 +2,7 @@
 GUI Program that access directly to a database. Users can "create a account", deposit money and retrieve it as well. "Server Hosted Privatly using MySQL"
 
 **IN DEVELOPMENT**
+
+Update 1.1 Merged from branch update_1.1:
+  More info here https://github.com/AndresRodriguezToca/Bank-Deposit-System/pull/1
+
