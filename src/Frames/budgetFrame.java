@@ -5,6 +5,16 @@
  */
 package Frames;
 
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author rodri
@@ -13,12 +23,18 @@ public class budgetFrame extends javax.swing.JFrame {
 
     /**
      * Creates new form budgetFrame
+     * @param name
+     * @param email
      */
-    public budgetFrame() {
+    public budgetFrame(String name, String email, double budget) {
+        String publicName = name;
         this.setUndecorated(true);
         initComponents();
-        
         this.setLocationRelativeTo(null);
+        
+        jLabelEmail.setText(email);
+        jLabelUserName.setText(name);
+        jTextFieldActualBalance.setText(String.valueOf(budget));
     }
 
     /**
@@ -31,26 +47,31 @@ public class budgetFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jButtonSignOut = new javax.swing.JButton();
         jLabelImage = new javax.swing.JLabel();
         jLabelEmail = new javax.swing.JLabel();
         jLabelWelcome = new javax.swing.JLabel();
         jLabelUserName = new javax.swing.JLabel();
         jLabelBalanceText = new javax.swing.JLabel();
         jTextFieldActualBalance = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
+        jLabelMoney = new javax.swing.JLabel();
         jLabelImageTop = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jButtonTakeBalance = new javax.swing.JButton();
         jButtonDeposit = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        jLabelImageBottom = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jButton1.setText("Sign Out");
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 80, 120, -1));
+        jButtonSignOut.setText("Sign Out");
+        jButtonSignOut.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSignOutActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jButtonSignOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 80, 120, -1));
 
         jLabelImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/iconfinder_JD-18_2252388.png"))); // NOI18N
         jPanel1.add(jLabelImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 116));
@@ -84,10 +105,10 @@ public class budgetFrame extends javax.swing.JFrame {
         });
         jPanel1.add(jTextFieldActualBalance, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 30, 120, -1));
 
-        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 153, 0));
-        jLabel6.setText("$");
-        jPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 20, 30, 50));
+        jLabelMoney.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        jLabelMoney.setForeground(new java.awt.Color(0, 153, 0));
+        jLabelMoney.setText("$");
+        jPanel1.add(jLabelMoney, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 20, 30, 50));
 
         jLabelImageTop.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabelImageTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/wood-2065366_1920.jpg"))); // NOI18N
@@ -96,13 +117,23 @@ public class budgetFrame extends javax.swing.JFrame {
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButtonTakeBalance.setText("Take from Balance");
-        jPanel2.add(jButtonTakeBalance, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 130, 140, 50));
+        jButtonTakeBalance.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonTakeBalanceActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButtonTakeBalance, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 130, 160, 50));
 
         jButtonDeposit.setText("Make a Deposit");
+        jButtonDeposit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonDepositActionPerformed(evt);
+            }
+        });
         jPanel2.add(jButtonDeposit, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, 140, 50));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/money-2724235_640.jpg"))); // NOI18N
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 350));
+        jLabelImageBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/money-2724235_640.jpg"))); // NOI18N
+        jPanel2.add(jLabelImageBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 350));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -128,6 +159,144 @@ public class budgetFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldActualBalanceActionPerformed
 
+    private void jButtonSignOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSignOutActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(rootPane, "Good Bye " + jLabelUserName.getText());
+        mainFrame framemain = new mainFrame();
+        this.setVisible(false);
+        framemain.setVisible(true);
+    }//GEN-LAST:event_jButtonSignOutActionPerformed
+
+    private void jButtonDepositActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDepositActionPerformed
+        //Gather the amount of the deposit
+        String value = JOptionPane.showInputDialog("How much you want to deposit?");
+        double i = Double.parseDouble(value);
+        boolean extract = false;
+        if(i <= 0){
+            JOptionPane.showMessageDialog(rootPane, "The deposit made it's less or equal than 0. No operation made.");
+        } else if (i > 32767){
+            JOptionPane.showMessageDialog(rootPane, "The deposit made it's to big to make a transaction.");
+        }
+        
+        String url = "jdbc:mysql://10.0.0.90:3306/customers_db";
+        String username = "Admin";
+        String passwordDB = "Andres8888UiOp**";
+        mainFrame a = new mainFrame();
+        try {
+            runMe(url,"customer_db",username,passwordDB, i, extract);
+        } catch (Exception ex) {
+            Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }//GEN-LAST:event_jButtonDepositActionPerformed
+
+    private void jButtonTakeBalanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTakeBalanceActionPerformed
+        //Gather the amount of the deposit
+        String value = JOptionPane.showInputDialog("How much you want to take out?");
+        double i = Double.parseDouble(value);
+        boolean extract = true;
+        if(i <= 0){
+            JOptionPane.showMessageDialog(rootPane, "Incorrect Value");
+        }
+        
+        String url = "jdbc:mysql://10.0.0.90:3306/customers_db";
+        String username = "Admin";
+        String passwordDB = "Andres8888UiOp**";
+        mainFrame a = new mainFrame();
+        try {
+            runMe(url,"customer_db",username,passwordDB, i, extract);
+        } catch (Exception ex) {
+            Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButtonTakeBalanceActionPerformed
+    protected void driverTest() throws Exception {
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.println("MySQL Driver Found");
+        } catch (java.lang.ClassNotFoundException e) {
+            System.out.println("MySQL JDBC Driver not found ... ");
+            throw (e);
+        }
+    }
+
+    protected Connection makeCon (String host, String database, String user, String password)
+          throws Exception {
+
+            String url = "";
+            try {
+                url = "jdbc:mysql://10.0.0.90:3306/customers_db";
+                Connection con = DriverManager.getConnection(url, user, password);
+            System.out.println("Connection established to " + url + "...");
+            return con;
+            } catch (java.sql.SQLException e) {
+            System.out.println("Connection couldn't be established to " + url);
+            throw (e);
+            }
+    }
+    
+    public void runMe(String host, String database, String user, String password, double budget, boolean extract)
+            throws Exception {
+        
+        /* run driverTest method shown below */
+        driverTest();
+
+        /* make the connection to the database */
+        Connection conMe = makeCon(host, database, user, password);
+        
+        /*Run Query*/
+        String nameUser =jLabelUserName.getText();
+        try {
+            Statement cs = conMe.createStatement();
+            String selectQuery = "SELECT * FROM customers_db.customers";
+            ResultSet rs = cs.executeQuery(selectQuery);
+            ArrayList<String> arrayUser = new ArrayList<>();
+            ArrayList<Double> arrayBudget = new ArrayList<>();
+            boolean updateDB = false;
+            int counter = 0;
+            while(rs.next()){
+                    arrayUser.add(rs.getString("customerName"));
+                    arrayBudget.add(rs.getDouble("budget"));
+                    counter++;
+            }
+            for(int i = 0; i < counter; i++){
+                    if(arrayUser.get(i).equals(jLabelUserName.getText()) && !extract){
+                        double tempBudget = arrayBudget.get(i);
+                        budget += tempBudget;
+                        updateDB = true;
+                    } else if(arrayUser.get(i).equals(jLabelUserName.getText()) && extract){
+                        double tempBudget = arrayBudget.get(i);
+                        if(budget > tempBudget){
+                            JOptionPane.showMessageDialog(rootPane, "You cannot take more than the actual balance");
+                            return;
+                        } else if(budget < tempBudget){
+                            budget = tempBudget - budget;
+                        }
+                    }
+            }
+            if(updateDB){
+                String updateQuery = "UPDATE customers_db.customers SET budget = '" + budget + "' WHERE customerName = '" + nameUser + "'";
+                int row = cs.executeUpdate(updateQuery);
+                jTextFieldActualBalance.setText(String.valueOf(budget));
+                JOptionPane.showMessageDialog(rootPane, "Balance Updated!");
+            } else if(!updateDB){
+                String updateQuery = "UPDATE customers_db.customers SET budget = '" + budget + "' WHERE customerName = '" + nameUser + "'";
+                int row = cs.executeUpdate(updateQuery);
+                jTextFieldActualBalance.setText(String.valueOf(budget));
+                JOptionPane.showMessageDialog(rootPane, "Balance Updated!");
+            }else{
+                JOptionPane.showMessageDialog(rootPane, "Error");
+            }
+        } catch (SQLException e) {
+            System.out.println ("Error executing sql statement");
+            throw (e);
+        }
+        
+        /* close the database */
+        conMe.close();
+        System.out.println("Closed Connection");
+    }
     /**
      * @param args the command line arguments
      */
@@ -155,24 +324,19 @@ public class budgetFrame extends javax.swing.JFrame {
         }
         //</editor-fold>
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new budgetFrame().setVisible(true);
-            }
-        });
+        
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButtonDeposit;
+    private javax.swing.JButton jButtonSignOut;
     private javax.swing.JButton jButtonTakeBalance;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabelBalanceText;
     private javax.swing.JLabel jLabelEmail;
     private javax.swing.JLabel jLabelImage;
+    private javax.swing.JLabel jLabelImageBottom;
     private javax.swing.JLabel jLabelImageTop;
+    private javax.swing.JLabel jLabelMoney;
     private javax.swing.JLabel jLabelUserName;
     private javax.swing.JLabel jLabelWelcome;
     private javax.swing.JPanel jPanel1;

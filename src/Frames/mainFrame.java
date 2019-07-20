@@ -7,9 +7,11 @@ package Frames;
 
 import javax.swing.JOptionPane;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -76,6 +78,11 @@ public class mainFrame extends javax.swing.JFrame {
                 jButtonExitMouseClicked(evt);
             }
         });
+        jButtonExit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonExitActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButtonExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 80, -1));
         getContentPane().add(jTextField, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 220, 160, 30));
         getContentPane().add(jTextFieldname, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 180, 160, 30));
@@ -113,12 +120,12 @@ public class mainFrame extends javax.swing.JFrame {
 
     private void jButtonExitMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonExitMouseClicked
         //Close Aplication
-        this.dispose();
+        System.exit(0);
     }//GEN-LAST:event_jButtonExitMouseClicked
 
     private void jButtonNewAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewAccountActionPerformed
         // Create a New Account
-        
+        boolean login = false;
         //Gather and check User Name
         String userName = jTextFieldname.getText();
         if("".equals(userName) || " ".equals(userName)){
@@ -158,7 +165,7 @@ public class mainFrame extends javax.swing.JFrame {
         String passwordDB = "Andres8888UiOp**";
         mainFrame a = new mainFrame();
         try {
-            runMe(url,"customer_db",username,passwordDB, userName, userEmail, tempPassword);
+            runMe(url,"customer_db",username,passwordDB, userName, userEmail, tempPassword, login);
         } catch (Exception ex) {
             Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -166,7 +173,7 @@ public class mainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonNewAccountActionPerformed
 
     private void jButtonLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogInActionPerformed
-        
+        boolean login = true;
         //Gather and check User Name
         String userName = jTextFieldname.getText();
         if("".equals(userName) || " ".equals(userName)){
@@ -204,16 +211,20 @@ public class mainFrame extends javax.swing.JFrame {
         String passwordDB = "Andres8888UiOp**";
         mainFrame a = new mainFrame();
         try {
-            runMe(url,"customer_db",username,passwordDB, userName, userEmail, tempPassword);
+            runMe(url,"customer_db",username,passwordDB, userName, userEmail, tempPassword, login);
         } catch (Exception ex) {
             Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }//GEN-LAST:event_jButtonLogInActionPerformed
+
+    private void jButtonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExitActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonExitActionPerformed
     private static String generateInsert(String name, String email, int password){
         return "INSERT INTO customers_db.customers (CUSTOMERNAME, EMAIL, ACCESSCODE, BUDGET)" + "VALUES ('" + name + "','" + email + "','" + password + "','" + 0 +"')";
     }
-    public void runMe(String host, String database, String user, String password, String name, String email, int userPassword)
+    public void runMe(String host, String database, String user, String password, String name, String email, int userPassword, boolean login)
             throws Exception {
 
         /* run driverTest method shown below */
@@ -221,9 +232,10 @@ public class mainFrame extends javax.swing.JFrame {
 
         /* make the connection to the database */
         Connection conMe = makeCon(host, database, user, password);
-
-        /* now run a select query of the intended database */
-        try {
+        
+        /*Run Query*/
+        if(!login){
+            try {
                 Statement cs = conMe.createStatement();
                 int row = cs.executeUpdate(generateInsert(name, email, userPassword));
 
@@ -232,9 +244,52 @@ public class mainFrame extends javax.swing.JFrame {
                 throw (e);
             
             }
+        } else if(login) {
+            try {
+                Statement cs = conMe.createStatement();
+                String selectQuery = "SELECT * FROM customers_db.customers";
+                ResultSet rs = cs.executeQuery(selectQuery);
+                
+                ArrayList<String> arrayUser = new ArrayList<String>();
+                ArrayList<String> arrayEmail = new ArrayList<String>();
+                ArrayList<Integer> arrayInt = new ArrayList<Integer>();
+                ArrayList<Double> arrayBudget = new ArrayList<Double>();
+                int counter = 0;
+                while(rs.next()){
+                    arrayUser.add(rs.getString("customerName"));
+                    arrayEmail.add(rs.getString("email"));
+                    arrayInt.add(rs.getInt("accessCode"));
+                    arrayBudget.add(rs.getDouble("budget"));
+                    counter++;
+                }
+                boolean found = false;
+                double budget =0;
+                for(int i = 0; i < counter; i++){
+                    if(name.equals(arrayUser.get(i)) && email.equals(arrayEmail.get(i)) && userPassword == arrayInt.get(i)){
+                        budget = arrayBudget.get(i);
+                        JOptionPane.showMessageDialog(rootPane, "Successfully Login");
+                        budgetFrame secondFrame = new budgetFrame(name,email, budget);
+                        this.setVisible(false);
+                        secondFrame.setVisible(true);
+                        found = true;
+                    }
+                }
+                if(!found){
+                    JOptionPane.showMessageDialog(rootPane, "Credentials Wrongs");
+                }
+            } catch (SQLException e) {
+                System.out.println ("Error executing sql statement");
+                throw (e);
+            
+            }
+        }
+        
         /* close the database */
         conMe.close();
-        JOptionPane.showMessageDialog(rootPane, "Account Created Successfully!!!");
+        System.out.println("Closed Connection");
+        if(!login){
+            JOptionPane.showMessageDialog(rootPane, "Account Created Successfully!!!");
+        }
     }
     protected void driverTest() throws Exception {
 
