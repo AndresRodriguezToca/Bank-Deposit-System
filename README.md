@@ -11,6 +11,5 @@ More info here https://github.com/AndresRodriguezToca/Bank-Deposit-System/pull/1
 Update 1.2 Merged from branch update_1.2:
 More info here https://github.com/AndresRodriguezToca/Bank-Deposit-System/pull/2
 
-|
-|---> Update 1.2.1 Merged from brancj update_1.3:
+|---> Update 1.2.1 Merged from branch update_1.3:
 More info here https://github.com/AndresRodriguezToca/Bank-Deposit-System/pull/3
