@@ -89,8 +89,8 @@ public class mainFrame extends javax.swing.JFrame {
 
         jLabelAccessCode.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabelAccessCode.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelAccessCode.setText("Access Code");
-        getContentPane().add(jLabelAccessCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 260, 100, -1));
+        jLabelAccessCode.setText("PIN");
+        getContentPane().add(jLabelAccessCode, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 260, 30, -1));
 
         jLabelEmail.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabelEmail.setForeground(new java.awt.Color(255, 255, 255));
