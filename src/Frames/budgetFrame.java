@@ -27,11 +27,13 @@ public class budgetFrame extends javax.swing.JFrame {
      * @param email
      */
     public budgetFrame(String name, String email, double budget) {
+        //Decoration
         String publicName = name;
         this.setUndecorated(true);
         initComponents();
         this.setLocationRelativeTo(null);
         
+        //Gather and display user info
         jLabelEmail.setText(email);
         jLabelUserName.setText(name);
         jTextFieldActualBalance.setText(String.valueOf(budget));
@@ -57,6 +59,11 @@ public class budgetFrame extends javax.swing.JFrame {
         jLabelMoney = new javax.swing.JLabel();
         jButtonTakeBalance = new javax.swing.JButton();
         jButtonDeposit = new javax.swing.JButton();
+        jSeparator = new javax.swing.JSeparator();
+        jLabelCalendar = new javax.swing.JLabel();
+        jLabelText = new javax.swing.JLabel();
+        jLabelTextCita = new javax.swing.JLabel();
+        jLabelPadLock = new javax.swing.JLabel();
         jLabelImageTop = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -84,7 +91,7 @@ public class budgetFrame extends javax.swing.JFrame {
 
         jLabelWelcome.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabelWelcome.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelWelcome.setText("Welcome, back");
+        jLabelWelcome.setText("Welcome back,");
         jPanel1.add(jLabelWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, -1, -1));
 
         jLabelUserName.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
@@ -127,10 +134,33 @@ public class budgetFrame extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButtonDeposit, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 50, 160, 50));
+        jPanel1.add(jSeparator, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 640, 10));
+
+        jLabelCalendar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/iconfinder_19-calendar-512x512_265514.png"))); // NOI18N
+        jPanel1.add(jLabelCalendar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 290, 130, 120));
+
+        jLabelText.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabelText.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelText.setText("Meet a specialist :");
+        jPanel1.add(jLabelText, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 350, -1, -1));
+
+        jLabelTextCita.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabelTextCita.setForeground(new java.awt.Color(0, 153, 255));
+        jLabelTextCita.setText("Make an appointment >");
+        jLabelTextCita.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelTextCitaMouseClicked(evt);
+            }
+        });
+        jPanel1.add(jLabelTextCita, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 350, -1, -1));
+
+        jLabelPadLock.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/iconfinder_padlock-closed_49855.png"))); // NOI18N
+        jLabelPadLock.setText("Protected Area");
+        jPanel1.add(jLabelPadLock, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 220, -1, -1));
 
         jLabelImageTop.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabelImageTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/background-3246124_1280.jpg"))); // NOI18N
-        jPanel1.add(jLabelImageTop, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 300));
+        jPanel1.add(jLabelImageTop, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 440));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -140,7 +170,7 @@ public class budgetFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -151,7 +181,7 @@ public class budgetFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldActualBalanceActionPerformed
 
     private void jButtonSignOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSignOutActionPerformed
-        // TODO add your handling code here:
+        // Sign out button
         JOptionPane.showMessageDialog(rootPane, "Good Bye " + jLabelUserName.getText());
         mainFrame framemain = new mainFrame();
         this.setVisible(false);
@@ -163,12 +193,13 @@ public class budgetFrame extends javax.swing.JFrame {
         String value = JOptionPane.showInputDialog("How much you want to deposit?");
         double i = Double.parseDouble(value);
         boolean extract = false;
+        //Check deposit
         if(i <= 0){
             JOptionPane.showMessageDialog(rootPane, "The deposit made it's less or equal than 0. No operation made.");
         } else if (i > 32767){
             JOptionPane.showMessageDialog(rootPane, "The deposit made it's to big to make a transaction.");
         }
-        
+        //Make connection and deposit
         String url = "jdbc:mysql://10.0.0.90:3306/customers_db";
         String username = "Admin";
         String passwordDB = "Andres8888UiOp**";
@@ -183,14 +214,15 @@ public class budgetFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDepositActionPerformed
 
     private void jButtonTakeBalanceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonTakeBalanceActionPerformed
-        //Gather the amount of the deposit
+        //Gather the amount to take from deposit
         String value = JOptionPane.showInputDialog("How much you want to take out?");
         double i = Double.parseDouble(value);
         boolean extract = true;
+        //Make sure input it's less that actual balance
         if(i <= 0){
             JOptionPane.showMessageDialog(rootPane, "Incorrect Value");
         }
-        
+        //Make connection and take from deposit
         String url = "jdbc:mysql://10.0.0.90:3306/customers_db";
         String username = "Admin";
         String passwordDB = "Andres8888UiOp**";
@@ -201,6 +233,12 @@ public class budgetFrame extends javax.swing.JFrame {
             Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButtonTakeBalanceActionPerformed
+
+    private void jLabelTextCitaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTextCitaMouseClicked
+        //Joke
+        JOptionPane.showMessageDialog(rootPane, "Sorry, hope you didn't expect a contact form!?");
+    }//GEN-LAST:event_jLabelTextCitaMouseClicked
+    //Driver Test
     protected void driverTest() throws Exception {
 
         try {
@@ -211,7 +249,7 @@ public class budgetFrame extends javax.swing.JFrame {
             throw (e);
         }
     }
-
+    //Make Connection
     protected Connection makeCon (String host, String database, String user, String password)
           throws Exception {
 
@@ -226,7 +264,7 @@ public class budgetFrame extends javax.swing.JFrame {
             throw (e);
             }
     }
-    
+    //Connection and process
     public void runMe(String host, String database, String user, String password, double budget, boolean extract)
             throws Exception {
         
@@ -242,15 +280,19 @@ public class budgetFrame extends javax.swing.JFrame {
             Statement cs = conMe.createStatement();
             String selectQuery = "SELECT * FROM customers_db.customers";
             ResultSet rs = cs.executeQuery(selectQuery);
+            
+            //Declare arraylist for selected elements
             ArrayList<String> arrayUser = new ArrayList<>();
             ArrayList<Double> arrayBudget = new ArrayList<>();
             boolean updateDB = false;
             int counter = 0;
+            //Gather elements
             while(rs.next()){
                     arrayUser.add(rs.getString("customerName"));
                     arrayBudget.add(rs.getDouble("budget"));
                     counter++;
             }
+            //Balance Handle
             for(int i = 0; i < counter; i++){
                     if(arrayUser.get(i).equals(jLabelUserName.getText()) && !extract){
                         double tempBudget = arrayBudget.get(i);
@@ -266,6 +308,7 @@ public class budgetFrame extends javax.swing.JFrame {
                         }
                     }
             }
+            //Update process
             if(updateDB){
                 String updateQuery = "UPDATE customers_db.customers SET budget = '" + budget + "' WHERE customerName = '" + nameUser + "'";
                 int row = cs.executeUpdate(updateQuery);
@@ -323,13 +366,18 @@ public class budgetFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonSignOut;
     private javax.swing.JButton jButtonTakeBalance;
     private javax.swing.JLabel jLabelBalanceText;
+    private javax.swing.JLabel jLabelCalendar;
     private javax.swing.JLabel jLabelEmail;
     private javax.swing.JLabel jLabelImage;
     private javax.swing.JLabel jLabelImageTop;
     private javax.swing.JLabel jLabelMoney;
+    private javax.swing.JLabel jLabelPadLock;
+    private javax.swing.JLabel jLabelText;
+    private javax.swing.JLabel jLabelTextCita;
     private javax.swing.JLabel jLabelUserName;
     private javax.swing.JLabel jLabelWelcome;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JSeparator jSeparator;
     private javax.swing.JTextField jTextFieldActualBalance;
     // End of variables declaration//GEN-END:variables
 }
