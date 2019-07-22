@@ -26,6 +26,7 @@ public class mainFrame extends javax.swing.JFrame {
      * Creates new form mainFrame
      */
     public mainFrame() {
+        //Decoration
         this.setUndecorated(true);
         initComponents();
         
@@ -51,6 +52,7 @@ public class mainFrame extends javax.swing.JFrame {
         jButtonNewAccount = new javax.swing.JButton();
         jPasswordField = new javax.swing.JPasswordField();
         jLabelName1 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
         imageLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -64,6 +66,8 @@ public class mainFrame extends javax.swing.JFrame {
         mainLabel.setToolTipText("");
         getContentPane().add(mainLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 140));
 
+        jButtonLogIn.setBackground(new java.awt.Color(0, 255, 0));
+        jButtonLogIn.setForeground(new java.awt.Color(255, 255, 255));
         jButtonLogIn.setText("Log in");
         jButtonLogIn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,6 +76,8 @@ public class mainFrame extends javax.swing.JFrame {
         });
         getContentPane().add(jButtonLogIn, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 360, 70, -1));
 
+        jButtonExit.setBackground(new java.awt.Color(255, 0, 0));
+        jButtonExit.setForeground(new java.awt.Color(255, 255, 255));
         jButtonExit.setText("Exit");
         jButtonExit.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -111,6 +117,16 @@ public class mainFrame extends javax.swing.JFrame {
         jLabelName1.setText("User Name");
         getContentPane().add(jLabelName1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 180, 90, 30));
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 102, 255));
+        jLabel1.setText("Forgotten your username or password?");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 390, 240, -1));
+
         imageLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         imageLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/earth-1149733_640.jpg"))); // NOI18N
         getContentPane().add(imageLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -124,7 +140,7 @@ public class mainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonExitMouseClicked
 
     private void jButtonNewAccountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonNewAccountActionPerformed
-        // Create a New Account
+        // Create a New Account Button
         boolean login = false;
         //Gather and check User Name
         String userName = jTextFieldname.getText();
@@ -173,6 +189,7 @@ public class mainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonNewAccountActionPerformed
 
     private void jButtonLogInActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLogInActionPerformed
+        //Log in Button
         boolean login = true;
         //Gather and check User Name
         String userName = jTextFieldname.getText();
@@ -221,9 +238,27 @@ public class mainFrame extends javax.swing.JFrame {
     private void jButtonExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExitActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonExitActionPerformed
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // Recover username and password from email
+        String value = JOptionPane.showInputDialog("What's your email?");
+        String url = "jdbc:mysql://10.0.0.90:3306/customers_db";
+        String username = "Admin";
+        String passwordDB = "Andres8888UiOp**";
+        mainFrame a = new mainFrame();
+        try {
+            runMe(url,"customer_db", username, passwordDB, " ", value, 10000, true);
+        } catch (Exception ex) {
+            Logger.getLogger(mainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jLabel1MouseClicked
+    
+    //SQL code to insert a new row of elements
     private static String generateInsert(String name, String email, int password){
         return "INSERT INTO customers_db.customers (CUSTOMERNAME, EMAIL, ACCESSCODE, BUDGET)" + "VALUES ('" + name + "','" + email + "','" + password + "','" + 0 +"')";
     }
+    
+    //Connection
     public void runMe(String host, String database, String user, String password, String name, String email, int userPassword, boolean login)
             throws Exception {
 
@@ -233,7 +268,7 @@ public class mainFrame extends javax.swing.JFrame {
         /* make the connection to the database */
         Connection conMe = makeCon(host, database, user, password);
         
-        /*Run Query*/
+        /*Run Query if not log in*/
         if(!login){
             try {
                 Statement cs = conMe.createStatement();
@@ -244,16 +279,22 @@ public class mainFrame extends javax.swing.JFrame {
                 throw (e);
             
             }
+        /*Run Query if log in*/
         } else if(login) {
             try {
                 Statement cs = conMe.createStatement();
                 String selectQuery = "SELECT * FROM customers_db.customers";
+                
+                //Execute Query
                 ResultSet rs = cs.executeQuery(selectQuery);
                 
+                //Declare arrays
                 ArrayList<String> arrayUser = new ArrayList<String>();
                 ArrayList<String> arrayEmail = new ArrayList<String>();
                 ArrayList<Integer> arrayInt = new ArrayList<Integer>();
                 ArrayList<Double> arrayBudget = new ArrayList<Double>();
+                
+                //Get all elements from database, save those to an arraylist and counter goes up each new row of elements 
                 int counter = 0;
                 while(rs.next()){
                     arrayUser.add(rs.getString("customerName"));
@@ -262,8 +303,26 @@ public class mainFrame extends javax.swing.JFrame {
                     arrayBudget.add(rs.getDouble("budget"));
                     counter++;
                 }
+                
+                //Code to forgotten user name and password
+                boolean foundForgotten = false;
+                if(userPassword == 10000){
+                   for(int i = 0; i < counter; i++){
+                        if(email.equals(arrayEmail.get(i))){
+                            JOptionPane.showMessageDialog(rootPane, "User Name: " + arrayUser.get(i) + " | PIN: " + arrayInt.get(i));
+                            conMe.close();
+                            return;
+                        }
+                    }
+                   if(!foundForgotten){
+                       JOptionPane.showMessageDialog(rootPane, "Sorry, we didn't found any account with " + email);
+                       conMe.close();
+                       return;
+                   }
+                }
                 boolean found = false;
                 double budget =0;
+                //Check if user input it's exactly equals to one row of elements and log him in
                 for(int i = 0; i < counter; i++){
                     if(name.equals(arrayUser.get(i)) && email.equals(arrayEmail.get(i)) && userPassword == arrayInt.get(i)){
                         budget = arrayBudget.get(i);
@@ -274,6 +333,7 @@ public class mainFrame extends javax.swing.JFrame {
                         found = true;
                     }
                 }
+                //If not, go back
                 if(!found){
                     JOptionPane.showMessageDialog(rootPane, "Credentials Wrongs");
                 }
@@ -287,10 +347,13 @@ public class mainFrame extends javax.swing.JFrame {
         /* close the database */
         conMe.close();
         System.out.println("Closed Connection");
+        //Message for create a new user
         if(!login){
             JOptionPane.showMessageDialog(rootPane, "Account Created Successfully!!!");
         }
     }
+    
+    //Driver Test
     protected void driverTest() throws Exception {
 
         try {
@@ -301,7 +364,7 @@ public class mainFrame extends javax.swing.JFrame {
             throw (e);
         }
     }
-
+    //Make Connection
     protected Connection makeCon (String host, String database, String user, String password)
           throws Exception {
 
@@ -356,6 +419,7 @@ public class mainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonExit;
     private javax.swing.JButton jButtonLogIn;
     private javax.swing.JButton jButtonNewAccount;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabelAccessCode;
     private javax.swing.JLabel jLabelEmail;
     private javax.swing.JLabel jLabelName1;
