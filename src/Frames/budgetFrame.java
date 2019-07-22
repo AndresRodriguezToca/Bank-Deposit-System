@@ -55,25 +55,26 @@ public class budgetFrame extends javax.swing.JFrame {
         jLabelBalanceText = new javax.swing.JLabel();
         jTextFieldActualBalance = new javax.swing.JTextField();
         jLabelMoney = new javax.swing.JLabel();
-        jLabelImageTop = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
         jButtonTakeBalance = new javax.swing.JButton();
         jButtonDeposit = new javax.swing.JButton();
-        jLabelImageBottom = new javax.swing.JLabel();
+        jLabelImageTop = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jButtonSignOut.setBackground(new java.awt.Color(255, 0, 0));
+        jButtonSignOut.setForeground(new java.awt.Color(255, 255, 255));
         jButtonSignOut.setText("Sign Out");
+        jButtonSignOut.setName(""); // NOI18N
         jButtonSignOut.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonSignOutActionPerformed(evt);
             }
         });
-        jPanel1.add(jButtonSignOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 80, 120, -1));
+        jPanel1.add(jButtonSignOut, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 220, 160, -1));
 
-        jLabelImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/iconfinder_JD-18_2252388.png"))); // NOI18N
+        jLabelImage.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/iconfinder_JD-17_2246811.png"))); // NOI18N
         jPanel1.add(jLabelImage, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 116));
 
         jLabelEmail.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -83,18 +84,18 @@ public class budgetFrame extends javax.swing.JFrame {
 
         jLabelWelcome.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabelWelcome.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelWelcome.setText("Welcome,");
+        jLabelWelcome.setText("Welcome, back");
         jPanel1.add(jLabelWelcome, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, -1, -1));
 
         jLabelUserName.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabelUserName.setForeground(new java.awt.Color(255, 255, 255));
         jLabelUserName.setText("Someone");
-        jPanel1.add(jLabelUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 40, 100, -1));
+        jPanel1.add(jLabelUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 40, 100, -1));
 
         jLabelBalanceText.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabelBalanceText.setForeground(new java.awt.Color(255, 255, 255));
         jLabelBalanceText.setText("My Balance:");
-        jPanel1.add(jLabelBalanceText, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 40, -1, -1));
+        jPanel1.add(jLabelBalanceText, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, -1, -1));
 
         jTextFieldActualBalance.setEditable(false);
         jTextFieldActualBalance.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
@@ -103,18 +104,12 @@ public class budgetFrame extends javax.swing.JFrame {
                 jTextFieldActualBalanceActionPerformed(evt);
             }
         });
-        jPanel1.add(jTextFieldActualBalance, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 30, 120, -1));
+        jPanel1.add(jTextFieldActualBalance, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 170, 120, 40));
 
         jLabelMoney.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
         jLabelMoney.setForeground(new java.awt.Color(0, 153, 0));
         jLabelMoney.setText("$");
-        jPanel1.add(jLabelMoney, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 20, 30, 50));
-
-        jLabelImageTop.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabelImageTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/wood-2065366_1920.jpg"))); // NOI18N
-        jPanel1.add(jLabelImageTop, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 170));
-
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(jLabelMoney, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 160, 30, 50));
 
         jButtonTakeBalance.setText("Take from Balance");
         jButtonTakeBalance.addActionListener(new java.awt.event.ActionListener() {
@@ -122,34 +117,30 @@ public class budgetFrame extends javax.swing.JFrame {
                 jButtonTakeBalanceActionPerformed(evt);
             }
         });
-        jPanel2.add(jButtonTakeBalance, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 130, 160, 50));
+        jPanel1.add(jButtonTakeBalance, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 130, 160, 50));
 
         jButtonDeposit.setText("Make a Deposit");
+        jButtonDeposit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jButtonDeposit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDepositActionPerformed(evt);
             }
         });
-        jPanel2.add(jButtonDeposit, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 130, 140, 50));
+        jPanel1.add(jButtonDeposit, new org.netbeans.lib.awtextra.AbsoluteConstraints(450, 50, 160, 50));
 
-        jLabelImageBottom.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/money-2724235_640.jpg"))); // NOI18N
-        jPanel2.add(jLabelImageBottom, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 350));
+        jLabelImageTop.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabelImageTop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Image/background-3246124_1280.jpg"))); // NOI18N
+        jPanel1.add(jLabelImageTop, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 640, 300));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 639, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 292, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -334,13 +325,11 @@ public class budgetFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelBalanceText;
     private javax.swing.JLabel jLabelEmail;
     private javax.swing.JLabel jLabelImage;
-    private javax.swing.JLabel jLabelImageBottom;
     private javax.swing.JLabel jLabelImageTop;
     private javax.swing.JLabel jLabelMoney;
     private javax.swing.JLabel jLabelUserName;
     private javax.swing.JLabel jLabelWelcome;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextFieldActualBalance;
     // End of variables declaration//GEN-END:variables
 }
