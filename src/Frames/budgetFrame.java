@@ -221,6 +221,7 @@ public class budgetFrame extends javax.swing.JFrame {
         //Make sure input it's less that actual balance
         if(i <= 0){
             JOptionPane.showMessageDialog(rootPane, "Incorrect Value");
+            return;
         }
         //Make connection and take from deposit
         String url = "jdbc:mysql://10.0.0.90:3306/customers_db";
